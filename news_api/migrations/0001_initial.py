@@ -19,7 +19,7 @@ class Migration(migrations.Migration):
                 ('username', models.CharField(max_length=30, unique=True)),
                 ('email', models.EmailField(max_length=255, unique=True)),
                 ('password', models.CharField(max_length=255)),
-                ('avatar', models.CharField()),
+                ('avatar', models.CharField(max_length=255)),
             ],
         ),
         migrations.CreateModel(
@@ -27,9 +27,9 @@ class Migration(migrations.Migration):
             fields=[
                 ('id', models.BigAutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
                 ('title', models.CharField(max_length=255)),
-                ('text', models.CharField()),
+                ('text', models.TextField()),
                 ('tags', models.CharField(max_length=255)),
-                ('image', models.CharField()),
+                ('image', models.CharField(max_length=255)),
                 ('author_id', models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, to='news_api.user')),
             ],
         ),
