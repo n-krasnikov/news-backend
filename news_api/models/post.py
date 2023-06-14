@@ -7,4 +7,4 @@ class Post(models.Model):
     text = models.TextField()
     tags = models.CharField(max_length=255)
     image = models.CharField(max_length=255)
-    author_id = models.ForeignKey(User, on_delete=models.CASCADE)
+    author = models.ForeignKey(User, on_delete=models.CASCADE)

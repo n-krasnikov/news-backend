@@ -30,7 +30,7 @@ class Migration(migrations.Migration):
                 ('text', models.TextField()),
                 ('tags', models.CharField(max_length=255)),
                 ('image', models.CharField(max_length=255)),
-                ('author_id', models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, to='news_api.user')),
+                ('author', models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, to='news_api.user')),
             ],
         ),
     ]
