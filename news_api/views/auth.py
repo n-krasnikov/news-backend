@@ -21,8 +21,7 @@ class AuthViewSet(ModelViewSet):
     def verify(self, request):
         token = request.headers.get('Authorization', None)
         if not token:
-            print('Invalid authorization')
-            return Response('Have not cred', status=status.HTTP_401_UNAUTHORIZED)
+            return Response('Unauthorized', status=status.HTTP_401_UNAUTHORIZED)
         
         if not token.startswith('Bearer'):
             return Response('Invalid token', status=status.HTTP_400_BAD_REQUEST)
