@@ -1,7 +1,6 @@
 from django.contrib.auth.models import AbstractBaseUser, PermissionsMixin
 from django.db import models
 from django.conf import settings
-import jwt
 
 from ..managers import UserManager
 
@@ -25,17 +24,4 @@ class User(AbstractBaseUser, PermissionsMixin):
 
     def __str__(self):
         return self.email
-
-    @property
-    def token(self):
-        return self._generate_jwt_token()
-
-    def get_username(self):
-        return self.username
-
-    def _generate_jwt_token(self):
-        token = jwt.encode({
-            'id': self.pk,
-        }, settings.SECRET_KEY, algorithm='HS256')
-
-        return token
+    
