@@ -43,6 +43,7 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'rest_framework',
+    'djoser',
     'rest_framework_simplejwt',
     'corsheaders',
     'news_api'
@@ -150,3 +151,8 @@ REST_FRAMEWORK = {
     )
 }
 
+DJOSER = {
+    'SERIALIZERS': {
+        'user': 'news_api.serializers.user_serializer'
+    }
+}

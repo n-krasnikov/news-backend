@@ -16,7 +16,7 @@ class AuthViewSet(ModelViewSet):
         serializer.is_valid(raise_exception=True)
         serializer.save()
 
-        return Response(serializer.data, status=status.HTTP_201_CREATED)
+        return Response("OK", status=status.HTTP_201_CREATED)
 
     def verify(self, request):
         token = request.headers.get('Authorization', None)

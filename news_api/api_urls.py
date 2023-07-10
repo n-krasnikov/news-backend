@@ -4,6 +4,7 @@ from rest_framework_simplejwt.views import (
     TokenObtainPairView,
     TokenRefreshView,
 )
+import djoser
 
 from .views import PostsViewSet, UsersViewSet, AuthViewSet
 
@@ -16,5 +17,6 @@ urlpatterns = [
   path('auth/signup', AuthViewSet.as_view({'post': 'register'})),
   path('auth/signin', TokenObtainPairView.as_view(), name='sign_in'),
   path('auth/refresh', TokenRefreshView.as_view(), name='refresh'),
-  path('auth/verify', AuthViewSet.as_view({'get': 'verify'}))
+  path('auth/verify', AuthViewSet.as_view({'get': 'verify'})),
+  path(r'djos/', include('djoser.urls'))
 ]
