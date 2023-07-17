@@ -15,10 +15,13 @@ class UsersViewSet(ModelViewSet):
         if not pk.isdigit():
             return Response("Invalid ID", status.HTTP_400_BAD_REQUEST)
         
-        user = User.objects.get(pk=pk)
-        posts = Post.objects.filter(author=pk)
-        user_serializer = UserSerializer(user)
-        post_serializer = PostSerializer(posts, many=True)
-        return Response({"user": user_serializer.data, "posts": post_serializer.data}, status=status.HTTP_200_OK)
+        try:
+            user = User.objects.get(pk=pk)
+            posts = Post.objects.filter(author=pk)
+            user_serializer = UserSerializer(user)
+            post_serializer = PostSerializer(posts, many=True)
+            return Response({"user": user_serializer.data, "posts": post_serializer.data}, status=status.HTTP_200_OK)
+        except:
+            return Response({"detail": "Something went wrong"}, status=status.HTTP_400_BAD_REQUEST)
 
     

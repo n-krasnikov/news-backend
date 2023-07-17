@@ -33,6 +33,8 @@ DEBUG = True
 
 ALLOWED_HOSTS = ['api.t1.academy.dunice-testing.com','127.0.0.1','localhost']
 
+BACKEND_URL = env('BACKEND_URL')
+BACKEND_PORT = env('BACKEND_PORT')
 
 # Application definition
 
@@ -142,6 +144,7 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/4.2/howto/static-files/
 
 STATIC_URL = 'static/'
+STATIC_ROOT= os.path.join(BASE_DIR,'news_api/static/')
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/4.2/ref/settings/#default-auto-field
@@ -152,9 +155,20 @@ AUTH_USER_MODEL = 'news_api.User'
 CORS_ALLOWED_ORIGINS = [
     "http://localhost:5173",
     "http://127.0.0.1:5173",
+    "http://localhost:8000",
+    "http://127.0.0.1:8000",
     "https://t1.academy.dunice-testing.com",
     "http://t1.academy.dunice-testing.com",
 ]
+
+# CORS_ORIGIN_WHITELIST = (
+# "https://t1.academy.dunice-testing.com",
+# "http://t1.academy.dunice-testing.com",
+# "http://localhost:5173",
+# "http://127.0.0.1:5173",
+# "http://localhost:8000",
+# "http://127.0.0.1:8000",
+# )
 
 REST_FRAMEWORK = {
     'DEFAULT_AUTHENTICATION_CLASSES': (
