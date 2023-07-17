@@ -1,2 +1,4 @@
 .env
 .history
+/news_api/static/images/*
+.DS_Store
