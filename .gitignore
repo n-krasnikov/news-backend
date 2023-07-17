@@ -2,4 +2,3 @@
 .history
 /news_api/static/images/*
 .DS_Store
-backend/.DS_Store

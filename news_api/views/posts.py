@@ -1,8 +1,7 @@
-from rest_framework.viewsets import ModelViewSet
-from rest_framework.permissions import AllowAny, IsAuthenticatedOrReadOnly
-from rest_framework.response import Response
 import os
 from time import time
+from rest_framework.viewsets import ModelViewSet
+from rest_framework.permissions import IsAuthenticatedOrReadOnly
 from django.conf import settings
 
 from ..models import Post
@@ -17,12 +16,12 @@ class PostsViewSet(ModelViewSet):
         request.data._mutable = True
 
         image = request.FILES.get('image')
-        rel_path = None
+        path = None
 
         if image is not None:
             image_path = settings.STATIC_ROOT + "images/" + str(time()) + image.name
 
-            rel_path = (
+            path = (
                 settings.BACKEND_URL 
                 + settings.BACKEND_PORT 
                 + settings.STATIC_URL 
@@ -33,7 +32,7 @@ class PostsViewSet(ModelViewSet):
                 f.write((image.file).read())
 
         request.data.update({"author": request.user})
-        request.data.update({"image": rel_path})
+        request.data.update({"image": path})
 
-        return(super().create(request))
+        return super().create(request)
   

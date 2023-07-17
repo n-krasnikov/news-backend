@@ -24,4 +24,4 @@ from news_api import api_urls
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('api/', include(api_urls))
-]+ static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)
+] + static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)

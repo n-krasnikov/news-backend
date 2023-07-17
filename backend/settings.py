@@ -161,15 +161,6 @@ CORS_ALLOWED_ORIGINS = [
     "http://t1.academy.dunice-testing.com",
 ]
 
-# CORS_ORIGIN_WHITELIST = (
-# "https://t1.academy.dunice-testing.com",
-# "http://t1.academy.dunice-testing.com",
-# "http://localhost:5173",
-# "http://127.0.0.1:5173",
-# "http://localhost:8000",
-# "http://127.0.0.1:8000",
-# )
-
 REST_FRAMEWORK = {
     'DEFAULT_AUTHENTICATION_CLASSES': (
         'rest_framework_simplejwt.authentication.JWTAuthentication',
