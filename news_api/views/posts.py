@@ -4,6 +4,8 @@ from time import time
 from rest_framework.viewsets import ModelViewSet
 from rest_framework.permissions import IsAuthenticatedOrReadOnly
 from django.conf import settings
+from rest_framework.response import Response
+from rest_framework import status
 
 from ..models import Post
 from ..serializers import PostSerializer
@@ -20,6 +22,9 @@ class PostsViewSet(ModelViewSet):
         path = None
 
         if image is not None:
+            if not image.name.lower().endswith(('.png', '.jpg', '.jpeg', '.svg')):
+                return Response({"detail": ".png, .jpg, .svg files only"}, status=status.HTTP_400_BAD_REQUEST)
+            
             image_path = settings.STATIC_ROOT + "images/" + str(time()) + image.name
 
             path = (
