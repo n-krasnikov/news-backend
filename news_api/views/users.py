@@ -38,7 +38,6 @@ class UsersViewSet(ModelViewSet):
 
         avatar = request.FILES.get('avatar')
         path = User.objects.get(pk=pk).avatar
-        print(path)
 
         if avatar is not None:
             if not avatar.name.lower().endswith(('.png', '.jpg', '.jpeg', '.svg')):
