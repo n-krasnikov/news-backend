@@ -1,14 +1,11 @@
-import os
-
 from rest_framework.viewsets import ModelViewSet
 from rest_framework.permissions import IsAuthenticated
 from rest_framework.response import Response
 from rest_framework import status
-from django.conf import settings
 
 from ..models import User, Post
 from ..serializers import UserSerializer, PostSerializer
-
+from ..utils import save_image, is_image
 class UsersViewSet(ModelViewSet):
     permission_classes = [IsAuthenticated]
     queryset = User.objects.all()
@@ -31,29 +28,16 @@ class UsersViewSet(ModelViewSet):
         if not pk.isdigit():
             return Response({"detail": "Invalid ID"}, status.HTTP_400_BAD_REQUEST)
 
-        if (request.user.id != int(pk)):
-            return Response({"detail": "Access Denied"}, status.HTTP_403_FORBIDDEN)
-
         request.data._mutable = True
 
         avatar = request.FILES.get('avatar')
         path = User.objects.get(pk=pk).avatar
 
         if avatar is not None:
-            if not avatar.name.lower().endswith(('.png', '.jpg', '.jpeg', '.svg')):
+            if not is_image(avatar):
                 return Response({"detail": ".png, .jpg, .svg files only"}, status=status.HTTP_400_BAD_REQUEST)
-            
-            image_path = settings.STATIC_ROOT + "avatars/" + pk + avatar.name
-
-            path = (
-                settings.BACKEND_URL 
-                + settings.BACKEND_PORT 
-                + settings.STATIC_URL 
-                + os.path.relpath(image_path, start = settings.STATIC_ROOT)
-            )
-            
-            with open(image_path, 'wb') as f:
-                f.write((avatar.file).read())
+    
+            path = path = save_image(avatar, "avatars/")
 
         request.data.update({"username": request.data.get("username")})
         request.data.update({"avatar": path})

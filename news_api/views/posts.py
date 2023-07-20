@@ -1,6 +1,3 @@
-import os
-from time import time
-
 from rest_framework.viewsets import ModelViewSet
 from rest_framework.permissions import IsAuthenticatedOrReadOnly
 from django.conf import settings
@@ -9,6 +6,7 @@ from rest_framework import status
 
 from ..models import Post
 from ..serializers import PostSerializer
+from ..utils import save_image, is_image
 
 class PostsViewSet(ModelViewSet):
     permission_classes = [IsAuthenticatedOrReadOnly]
@@ -22,22 +20,12 @@ class PostsViewSet(ModelViewSet):
         path = None
 
         if image is not None:
-            if not image.name.lower().endswith(('.png', '.jpg', '.jpeg', '.svg')):
+            if not is_image(image):
                 return Response({"detail": ".png, .jpg, .svg files only"}, status=status.HTTP_400_BAD_REQUEST)
             
-            image_path = settings.STATIC_ROOT + "images/" + str(time()) + image.name
+            path = path = save_image(image, "posts/")
 
-            path = (
-                settings.BACKEND_URL 
-                + settings.BACKEND_PORT 
-                + settings.STATIC_URL 
-                + os.path.relpath(image_path, start = settings.STATIC_ROOT)
-            )
-            
-            with open(image_path, 'xb') as f:
-                f.write((image.file).read())
-
-        request.data.update({"author": request.user})
+        request.data.update({"author": request.user.username})
         request.data.update({"image": path})
 
         return super().create(request)
