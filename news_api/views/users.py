@@ -5,6 +5,7 @@ from rest_framework import status
 
 from ..models import User, Post
 from ..serializers import UserSerializer, PostSerializer
+from ..utils import save_image, is_image
 
 class UsersViewSet(ModelViewSet):
     permission_classes = [IsAuthenticated]
@@ -23,5 +24,24 @@ class UsersViewSet(ModelViewSet):
             return Response({"user": user_serializer.data, "posts": post_serializer.data}, status=status.HTTP_200_OK)
         except:
             return Response({"detail": "Something went wrong"}, status=status.HTTP_400_BAD_REQUEST)
+        
+    def partial_update(self, request, pk):
+        if not pk.isdigit():
+            return Response({"detail": "Invalid ID"}, status.HTTP_400_BAD_REQUEST)
 
+        request.data._mutable = True
+
+        avatar = request.FILES.get('avatar')
+        path = User.objects.get(pk=pk).avatar
+
+        if avatar is not None:
+            if not is_image(avatar):
+                return Response({"detail": ".png, .jpg, .svg files only"}, status=status.HTTP_400_BAD_REQUEST)
+    
+            path = save_image(avatar, "avatars/")
+
+        request.data.update({"username": request.data.get("username")})
+        request.data.update({"avatar": path})
+
+        return super().partial_update(request, pk)
     
