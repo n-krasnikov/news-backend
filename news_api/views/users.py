@@ -6,6 +6,7 @@ from rest_framework import status
 from ..models import User, Post
 from ..serializers import UserSerializer, PostSerializer
 from ..utils import save_image, is_image
+
 class UsersViewSet(ModelViewSet):
     permission_classes = [IsAuthenticated]
     queryset = User.objects.all()
@@ -37,7 +38,7 @@ class UsersViewSet(ModelViewSet):
             if not is_image(avatar):
                 return Response({"detail": ".png, .jpg, .svg files only"}, status=status.HTTP_400_BAD_REQUEST)
     
-            path = path = save_image(avatar, "avatars/")
+            path = save_image(avatar, "avatars/")
 
         request.data.update({"username": request.data.get("username")})
         request.data.update({"avatar": path})

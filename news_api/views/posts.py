@@ -23,7 +23,7 @@ class PostsViewSet(ModelViewSet):
             if not is_image(image):
                 return Response({"detail": ".png, .jpg, .svg files only"}, status=status.HTTP_400_BAD_REQUEST)
             
-            path = path = save_image(image, "posts/")
+            path = save_image(image, "posts/")
 
         request.data.update({"author": request.user.username})
         request.data.update({"image": path})
