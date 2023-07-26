@@ -3,15 +3,19 @@ from rest_framework.permissions import IsAuthenticatedOrReadOnly
 from django.conf import settings
 from rest_framework.response import Response
 from rest_framework import status
+from django_filters.rest_framework import DjangoFilterBackend
 
 from ..models import Post
 from ..serializers import PostSerializer
+from ..filters import PostFilter
 from ..utils import save_image, is_image
 
 class PostsViewSet(ModelViewSet):
     permission_classes = [IsAuthenticatedOrReadOnly]
     queryset = Post.objects.all()
     serializer_class = PostSerializer
+    filter_backends = [DjangoFilterBackend]
+    filterset_class = PostFilter
 
     def create(self, request, *args, **kwargs):
         request.data._mutable = True
