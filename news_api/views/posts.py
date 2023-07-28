@@ -16,6 +16,7 @@ class PostsViewSet(ModelViewSet):
     serializer_class = PostSerializer
     filter_backends = [DjangoFilterBackend]
     filterset_class = PostFilter
+    search_fields = ['author', 'text', 'title', 'tags']
 
     def create(self, request, *args, **kwargs):
         request.data._mutable = True
