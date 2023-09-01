@@ -10,6 +10,7 @@ from ..models import User
 class AuthViewSet(ModelViewSet):
 
     def register(self, request):
+        print('1')
         user = request.data
 
         serializer = SignUpSerializer(data=user)
